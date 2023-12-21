@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ![Piper logo](etc/logo.png)
 
 A fast, local neural text to speech system that sounds great and is optimized for the Raspberry Pi 4.
@@ -175,3 +176,7 @@ If you'd like to use a GPU, install the `onnxruntime-gpu` package:
 
 and then run `piper` with the `--cuda` argument. You will need to have a functioning CUDA environment, such as what's available in [NVIDIA's PyTorch containers](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch).
 
+=======
+# Viper
+Text To Speech Library
+>>>>>>> e76bf6b12761f23511db885db9133aedfd1e7e4b
