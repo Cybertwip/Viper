@@ -245,7 +245,7 @@ void initialize(PiperConfig &config) {
     spdlog::debug("Initialized libtashkeel");
   }
 
-  spdlog::info("Initialized piper");
+  spdlog::info("Initialized viper");
 }
 
 void terminate(PiperConfig &config) {
@@ -256,8 +256,10 @@ void terminate(PiperConfig &config) {
     spdlog::debug("Terminated eSpeak");
   }
 
-  spdlog::info("Terminated piper");
+  spdlog::info("Terminated viper");
 }
+
+
 
 void loadModel(std::string modelPath, ModelSession &session, bool useCuda) {
   spdlog::debug("Loading onnx model from {}", modelPath);
