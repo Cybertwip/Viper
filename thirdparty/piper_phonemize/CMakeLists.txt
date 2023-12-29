@@ -136,26 +136,26 @@ target_compile_features(piper_phonemize PUBLIC cxx_std_17)
 
 # # ---- Declare executable ----
 
-# add_executable(piper_phonemize_exe src/main.cpp src/phoneme_ids.cpp)
+add_executable(piper_phonemize_exe src/main.cpp src/phoneme_ids.cpp)
 
-# if(NOT WIN32)
-#     set_property(TARGET piper_phonemize_exe PROPERTY OUTPUT_NAME piper_phonemize)
-# endif()
+if(NOT WIN32)
+    set_property(TARGET piper_phonemize_exe PROPERTY OUTPUT_NAME piper_phonemize)
+endif()
 
-# target_compile_features(piper_phonemize_exe PUBLIC cxx_std_17)
+target_compile_features(piper_phonemize_exe PUBLIC cxx_std_17)
 
-# target_include_directories(
-#     piper_phonemize_exe PUBLIC
-#     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>"
-#     ${ESPEAK_NG_DIR}/include
-# )
+target_include_directories(
+    piper_phonemize_exe PUBLIC
+    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>"
+    ${ESPEAK_NG_DIR}/include
+)
 
-# target_link_directories(
-#     piper_phonemize_exe PUBLIC
-#     ${ESPEAK_NG_DIR}/lib
-# )
+target_link_directories(
+    piper_phonemize_exe PUBLIC
+    ${ESPEAK_NG_DIR}/lib
+)
 
-# target_link_libraries(piper_phonemize_exe PUBLIC
-#     piper_phonemize
-#     espeak-ng
-# )
+target_link_libraries(piper_phonemize_exe PUBLIC
+    piper_phonemize
+    espeak-ng
+)
