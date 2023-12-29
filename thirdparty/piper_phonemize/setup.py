@@ -1,14 +1,17 @@
 import platform
 from pathlib import Path
 
+import os
+
+
+
 # Available at setup time due to pyproject.toml
 from pybind11.setup_helpers import Pybind11Extension, build_ext
 from setuptools import setup
 
-_DIR = Path(__file__).parent
-_ESPEAK_DIR = _DIR / "espeak-ng" / "build"
-_LIB_DIR = _DIR / "lib" / f"Linux-{platform.machine()}"
-_ONNXRUNTIME_DIR = _LIB_DIR / "onnxruntime"
+_DIR = Path(os.environ['VIPER_ROOT'])
+_ESPEAK_DIR = _DIR / "install"
+_ONNXRUNTIME_DIR = _DIR / "artifacts"
 
 __version__ = "1.2.0"
 
@@ -39,9 +42,9 @@ setup(
     packages=["piper_phonemize"],
     package_data={
         "piper_phonemize": [
-            str(p) for p in (_DIR / "piper_phonemize" / "espeak-ng-data").rglob("*")
+            str(p) for p in (_DIR / "data" / "espeak-ng-data").rglob("*")
         ]
-        + [str(_DIR / "libtashkeel_model.ort")]
+        + [str(_DIR / "data" / "libtashkeel_model.ort")]
     },
     include_package_data=True,
     ext_modules=ext_modules,

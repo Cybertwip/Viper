@@ -5,8 +5,46 @@
 
 #include <filesystem>
 #include <optional>
+#include <vector>
 
 #include "piper.hpp"
+#include "alpaca.hpp"
+
+namespace {
+void replaceWithinDelimiters(std::string& myString, const std::string& openingDelimiter, const std::string& closingDelimiter, const std::string& replaceString) {
+    size_t pos = myString.find(openingDelimiter);
+
+    while (pos != std::string::npos) {
+        size_t endPos = myString.find(closingDelimiter, pos + openingDelimiter.length());
+        if (endPos != std::string::npos) {
+            myString.replace(pos, endPos - pos + closingDelimiter.length(), replaceString);
+        } else {
+            // Handle the case where the closing delimiter is not found
+            break;
+        }
+
+        pos = myString.find(openingDelimiter, pos + replaceString.length());
+    }
+}
+void trimSpaces(std::string& myString) {
+    // Trim leading spaces
+    size_t start = myString.find_first_not_of(" \t\r\n");
+    if (start != std::string::npos) {
+        myString.erase(0, start);
+    } else {
+        // If the string is all spaces, clear it
+        myString.clear();
+        return;
+    }
+
+    // Trim trailing spaces
+    size_t end = myString.find_last_not_of(" \t\r\n");
+    if (end != std::string::npos) {
+        myString.erase(end + 1);
+    }
+}
+
+}
 
 struct RunConfig {
 	// Path to .onnx voice file
@@ -38,12 +76,20 @@ struct RunConfig {
 	std::optional<std::map<piper::Phoneme, float>> phonemeSilenceSeconds;
 };
 
-class Viper::CImpl {
+class Viper2::CImpl {
 public:
-	CImpl(std::filesystem::path& dataPath, const std::string& modelBaseName = "data/ald");
+	CImpl(std::filesystem::path& dataPath,
+		  const std::string& chatModel = "data/llama-2-7b-chat/ggml-model-f16.gguf", const std::string& modelBaseName = "data/ald");
+	~CImpl();
+
+	void chat(int speakerTurn, std::function<void(std::vector<std::pair<int, std::string>>)> callback);
 	
-	void execute(int speakerId, const std::string& text, std::function<void(std::vector<int16_t>)> onDoneCallback);
+	void save(std::ostream &audioFile, std::vector<int16_t> audioBuffer);
 	
+	std::vector<int16_t> execute(int speakerId, const std::string& text);
+	
+	bool update();
+
 private:
 	void setupViper(std::filesystem::path& dataPath, const std::string& modelBaseName);
 	void setupVoice();
@@ -55,35 +101,37 @@ private:
 	piper::SynthesisResult result;
 	
 	std::vector<int16_t> audioBuffer;
+	
+	std::unique_ptr<Alpaca> alpaca;
 };
 
-Viper::CImpl::CImpl(std::filesystem::path& dataPath, const std::string& modelBaseName) {
+Viper2::CImpl::~CImpl(){
+	
+}
+
+Viper2::CImpl::CImpl(std::filesystem::path& dataPath, const std::string& chatModel, const std::string& modelBaseName) : alpaca(std::make_unique<Alpaca>(dataPath, chatModel)) {
 	setupViper(dataPath, modelBaseName);
 }
 
-void Viper::CImpl::execute(int speakerId, const std::string& text, std::function<void(std::vector<int16_t>)> onDoneCallback){
-		
+void Viper2::CImpl::chat(int speakerTurn, std::function<void(std::vector<std::pair<int, std::string>>)> callback){
+	
+	alpaca->Chat(speakerTurn, callback, "Señor Patata", "Una patata enojona", "Regan", "Una Pirata");
+}
+
+void Viper2::CImpl::save(std::ostream &audioFile, std::vector<int16_t> audioBuffer){
+	piper::pcmToWavFile(voice, audioFile, audioBuffer);
+}
+
+std::vector<int16_t> Viper2::CImpl::execute(int speakerId, const std::string& text){
+
+	audioBuffer.clear();
 	result = piper::SynthesisResult();
-	
-	auto defaultSpeakerId = voice.synthesisConfig.speakerId;
-	
 	voice.synthesisConfig.speakerId = speakerId;
-	
-	auto audioCallback = [this, defaultSpeakerId, onDoneCallback]() {
-		// Signal thread that audio is ready
-		{
-			if(onDoneCallback){
-				onDoneCallback(std::move(audioBuffer));
-			}
-			
-			voice.synthesisConfig.speakerId = defaultSpeakerId;
-		}
-	};
-	
-	piper::textToAudio(piperConfig, voice, text, audioBuffer, result, audioCallback);
+	piper::textToAudio(piperConfig, voice, text, audioBuffer, result, nullptr);
+	return audioBuffer;
 }
 		
-void Viper::CImpl::setupViper(std::filesystem::path& dataPath, const std::string& modelBaseName){
+void Viper2::CImpl::setupViper(std::filesystem::path& dataPath, const std::string& modelBaseName){
 	
 	runConfig.modelPath = std::filesystem::absolute(
 						dataPath / (modelBaseName + ".onnx")).string();
@@ -117,8 +165,7 @@ void Viper::CImpl::setupViper(std::filesystem::path& dataPath, const std::string
 	piper::initialize(piperConfig);
 }
 
-void Viper::CImpl::setupVoice(){
-	
+void Viper2::CImpl::setupVoice(){
 	// Scales
 	if (runConfig.noiseScale) {
 		voice.synthesisConfig.noiseScale = runConfig.noiseScale.value();
@@ -154,19 +201,72 @@ void Viper::CImpl::setupVoice(){
 	} // if phonemeSilenceSeconds
 }
 
-Viper::Viper(const std::string& dataPath, const std::string& modelBaseName)
+bool Viper2::CImpl::update(){
+	return alpaca->Update();
+}
+
+Viper2::Viper2(const std::string& dataPath, const std::string& chatModel,
+    const std::string& modelBaseName)
 {
 	auto path = std::filesystem::path(dataPath);
-	impl = std::make_unique<CImpl>(path, modelBaseName);
+	impl = std::make_unique<CImpl>(path, chatModel, modelBaseName);
 }
 
-Viper::~Viper()
+Viper2::~Viper2()
 {
 }
 
-void Viper::execute(int speakerId, const std::string& text, std::function<void(std::vector<int16_t>)> onDoneCallback){
-	impl->execute(speakerId, text, onDoneCallback);
+bool Viper2::update() {
+	return impl->update();
 }
+
+void Viper2::chat(int speakerTurn, 
+std::function<void(std::pair<int, std::string>)> textCallback,
+std::function<void(std::vector<int16_t>)> audioCallback){
+	auto chatCallback = [this, textCallback, audioCallback](std::vector<std::pair<int, std::string>> chatOutput){
+		
+		std::vector<int16_t> pcmOutput;
+		
+		std::vector<int16_t> pcmSilence = std::vector<int16_t>(8000);
+		
+		for(auto& chat : chatOutput){
+
+				
+			std::string postprocessedText = chat.second;
+			
+			replaceWithinDelimiters(postprocessedText, "*", "*", "");
+			replaceWithinDelimiters(postprocessedText, "(", ")", "");
+
+			trimSpaces(postprocessedText);
+
+
+
+			if(textCallback){
+				textCallback({chat.first, postprocessedText + "\n"});
+			}
+
+			auto pcm = impl->execute(chat.first, postprocessedText);
+			
+			pcmOutput.insert(pcmOutput.end(), pcm.begin(), pcm.end());
+
+			pcmOutput.insert(pcmOutput.end(), pcmSilence.begin(), pcmSilence.end());
+
+		}
+
+		if(audioCallback){
+			audioCallback(pcmOutput);
+		}
+
+		// std::string outputPath = "audio.wav";
+		// std::ofstream audioFile(outputPath, std::ios::binary);
+		// impl->save(audioFile, pcmOutput);
+	};
+	
+	impl->chat(speakerTurn, chatCallback);
+
+}
+
+
 
 
 

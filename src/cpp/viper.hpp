@@ -12,11 +12,18 @@
 #endif
 
 
-VIPER_DLL class Viper {
+VIPER_DLL class Viper2 {
 public:
-	Viper(const std::string& dataPath, const std::string& modelBaseName = "ald");
-	~Viper();
-	void execute(int speakerId, const std::string& text, std::function<void(std::vector<int16_t>)> onDoneCallback);
+	Viper2(const std::string& dataPath,
+		   const std::string& chatModel,
+		   const std::string& modelBaseName);
+	~Viper2();
+	
+	void chat(int speakerTurn, 
+			  std::function<void(std::pair<int, std::string>)> textCallback,
+			  std::function<void(std::vector<int16_t>)> audioCallback);
+	
+	bool update();
 	
 private:
 	class CImpl;

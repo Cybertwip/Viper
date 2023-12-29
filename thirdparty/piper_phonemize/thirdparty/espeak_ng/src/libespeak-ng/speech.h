@@ -75,7 +75,11 @@ extern "C"
 
 // will look for espeak_data directory here, and also in user's home directory
 #ifndef PATH_ESPEAK_DATA
+#if __APPLE__
+   #define PATH_ESPEAK_DATA  "/opt/homebrew/share/espeak-ng-data"
+#else
    #define PATH_ESPEAK_DATA  "/usr/share/espeak-ng-data"
+#endif
 #endif
 
 void cancel_audio(void);
