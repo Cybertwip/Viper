@@ -12,6 +12,7 @@ if(APPLE)
   set(CMAKE_INSTALL_PREFIX /opt/homebrew)
 endif()
 
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/artifacts/lib CACHE STRING "Static Libraries")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/artifacts/lib CACHE STRING "Shared Libraries")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/artifacts/bin CACHE STRING "Executables")
 
@@ -72,6 +73,7 @@ install(
   TARGETS piper
   DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
 )
+
 # Dependencies
 install(
   DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
