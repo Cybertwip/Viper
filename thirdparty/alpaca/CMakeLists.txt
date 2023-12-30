@@ -8,12 +8,6 @@ if (NOT XCODE AND NOT MSVC AND NOT CMAKE_BUILD_TYPE)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRING "Release")
 endif()
 
-if(APPLE)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-    set(BINARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/output/Binaries/Mac CACHE STRING "CONTENT_OUTPUT_DIRECTORY")
-    set(DATA_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../data CACHE STRING "CONTENT_OUTPUT_DIRECTORY")
-endif()
-
 set(LLAMA_STANDALONE ON)
 
 if (EMSCRIPTEN)
@@ -168,8 +162,6 @@ if (LLAMA_METAL)
 
     # copy ggml-metal.metal to bin directory
     configure_file(ggml-metal.metal ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ggml-metal.metal COPYONLY)
-    configure_file(ggml-metal.metal ${BINARY_OUTPUT_DIRECTORY}/ggml-metal.metal COPYONLY)
-    configure_file(ggml-metal.metal ${DATA_OUTPUT_DIRECTORY}/../ggml-metal.metal COPYONLY)
 
     set(LLAMA_EXTRA_LIBS ${LLAMA_EXTRA_LIBS}
         ${FOUNDATION_LIBRARY}

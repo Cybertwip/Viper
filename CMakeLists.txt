@@ -35,7 +35,6 @@ add_executable(piper src/cpp/main.cpp src/cpp/piper.cpp)
 add_library(viper SHARED src/cpp/viper.hpp src/cpp/viper.cpp src/cpp/piper.cpp)
 
 # ---- piper-phonemize ---
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/thirdparty/fmt)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/thirdparty/spdlog)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/thirdparty/piper_phonemize)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/thirdparty/alpaca)
@@ -61,9 +60,6 @@ target_link_libraries(piper
 target_compile_definitions(viper PUBLIC _PIPER_VERSION=${piper_version})
 
 set_property(TARGET viper PROPERTY DEFINE_SYMBOL "")
-
-file(COPY ${CMAKE_CURRENT_LIST_DIR}/src/cpp/viper.hpp DESTINATION ${CMAKE_CURRENT_LIST_DIR}/include)
-
 
 set_target_properties(piper PROPERTIES INSTALL_RPATH "@executable_path/../lib")
 

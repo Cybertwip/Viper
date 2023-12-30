@@ -106,7 +106,7 @@ file(COPY ${ONNXRUNTIME_DIR}/include/ DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTO
 
 
 # ---- espeak-ng ---
-add_subdirectory(thirdparty/espeak_ng)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/thirdparty/espeak_ng)
 
 
 # ---- Declare library ----
