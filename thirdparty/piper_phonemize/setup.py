@@ -12,6 +12,7 @@ from setuptools import setup
 
 _PREFIX_PATH = Path(os.environ['VIPER_ROOT'])
 
+
 __version__ = "1.2.0"
 
 
