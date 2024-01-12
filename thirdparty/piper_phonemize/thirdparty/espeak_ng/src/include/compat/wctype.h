@@ -32,8 +32,6 @@
 
 #include <ucd/ucd.h>
 
-#if !defined(__APPLE__)
-
 #define iswalnum  ucd_isalnum
 #define iswalpha  ucd_isalpha
 #define iswblank  ucd_isblank
@@ -49,5 +47,4 @@
 #define tolower ucd_tolower
 #define toupper udc_toupper
 
-#endif
 #endif

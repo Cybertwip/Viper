@@ -63,7 +63,7 @@ extern "C"
 
 #define PLATFORM_POSIX 1
 #define PATHSEP  '/'
-#define N_PATH_HOME_DEF  255
+#define N_PATH_HOME_DEF  160
 #define USE_NANOSLEEP
 #define __cdecl
 
@@ -75,7 +75,7 @@ extern "C"
 
 // will look for espeak_data directory here, and also in user's home directory
 #ifndef PATH_ESPEAK_DATA
-   #define PATH_ESPEAK_DATA  "/opt/homebrew/share/espeak-ng-data"
+   #define PATH_ESPEAK_DATA  "/usr/share/espeak-ng-data"
 #endif
 
 void cancel_audio(void);
