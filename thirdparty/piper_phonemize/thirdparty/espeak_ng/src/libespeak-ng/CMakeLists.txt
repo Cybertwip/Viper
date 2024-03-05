@@ -37,6 +37,11 @@ add_library(espeak-ng
 
   espeak_api.c
 )
+set_target_properties(
+  espeak-ng PROPERTIES
+  MACOSX_RPATH ON
+  INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib"
+)
 
 target_include_directories(espeak-ng BEFORE PRIVATE $<TARGET_PROPERTY:espeak-include,INTERFACE_INCLUDE_DIRECTORIES>)
 
@@ -60,6 +65,10 @@ if (NOT MSVC)
   )
 endif()
 target_compile_definitions(espeak-ng PRIVATE "LIBESPEAK_NG_EXPORT=1")
+if (NOT BUILD_SHARED_LIBS)
+  target_compile_definitions(espeak-ng INTERFACE "LIBESPEAK_NG_EXPORT=1")
+endif()
+
 target_compile_definitions(espeak-ng PRIVATE "PATH_ESPEAK_DATA=\"${CMAKE_INSTALL_PREFIX}/share/espeak-ng-data\"")
 
 if (USE_ASYNC)
@@ -118,3 +127,4 @@ set_target_properties(espeak-ng PROPERTIES
   VERSION ${PROJECT_VERSION}
 )
 
+install(TARGETS espeak-ng LIBRARY)
