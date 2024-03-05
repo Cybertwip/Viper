@@ -471,7 +471,7 @@ _0M3	b'Ili@n
 _0M4	tr'Ili@n
 _0M5    kw0dr'Ili@n
 _0M6    kwInt'Ili@n
-_0M7    sEkst'Ili@n
+_0M7    sExt'Ili@n
 _0M8    sEpt'Ili@n
 _0M9    0kt'Ili@n
 _0M10   n0n'Ili@n
@@ -1048,7 +1048,6 @@ banal		beIn@L
 banana		$alt3
 ?3 banana       ba#nan@
 banged		baNgd
-banknote b'aNknoUt
 banquet		baNkwI2t
 barbiturate	bA@b'ItSU@r@t
 barometer	b@r0mI2t3
@@ -1065,7 +1064,6 @@ bass		$alt6 //beIs
 bassist		$alt6 //beIsIst
 baste		$alt6 //beIst
 bastion		basti@n
-bateau ba'toU
 batman		batman
 ?3 baton	$alt3
 battalion	$alt3
@@ -2407,7 +2405,6 @@ lense		lEnz  // lenses
 leona		li:'oUn@
 leotard		$alt4
 leprechaun	lEpr@kO:n
-leschi 'lESaI
 lesion		li:Z@n
 (les misérables)	leImIzEr'A:bl@-
 lethal		li:T@L
@@ -3370,7 +3367,6 @@ shaoni	SaI'oUni
 shareable	Se@@b@L
 sharpie		$alt2
 shazam		$alt3
-shea S'eI $only
 shebang		SI#baN
 sheepherder	$alt4
 shenanigan	SI#nanIg@n

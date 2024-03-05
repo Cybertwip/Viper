@@ -39,7 +39,6 @@ updated languages:
 *  uz (Uzbek) -- Andiv06
 
 new languages:
-*  ti (Tigrinya) -- Biniam Gebremichael
 *  mto (Totontepec Mixe) -- Bill Dengler, Elizabeth Resendiz
 
 ### 1.51

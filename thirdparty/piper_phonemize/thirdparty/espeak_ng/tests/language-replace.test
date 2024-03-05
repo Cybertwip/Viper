@@ -5,7 +5,8 @@
 ##### bs: Bosnian
 
 # Ljubazni fenjerdžija čađavog lica hoće da mi pokaže štos.
-test_replace bs "Љубазни фењерџија чађавог лица хоће да ми покаже штос." "Translate 'ljubazni'
+cat > expected.txt <<EOF
+Translate 'ljubazni'
 Translate 'fenjerdžija'
 Translate 'čađavog'
 Translate 'lica'
@@ -13,21 +14,27 @@ Translate 'hoće'
 Translate 'da'
 Translate 'mi'
 Translate 'pokaže'
-Translate 'štos'"
+Translate 'štos'
+EOF
+test_replace bs "Љубазни фењерџија чађавог лица хоће да ми покаже штос."
 
 ##### en: English
 
-test_replace en "Æon mediæval. Œconomy phœnix. Loﬅ hiﬆory." "Translate 'aeon'
+cat > expected.txt <<EOF
+Translate 'aeon'
 Found: 'mediaeval'
 Translate 'oeconomy'
 Found: 'phoenix'
 Found: 'lost'
-Translate 'history'"
+Translate 'history'
+EOF
+test_replace en "Æon mediæval. Œconomy phœnix. Loﬅ hiﬆory."
 
 ##### hr: Croatian
 
 # Ljubazni fenjerdžija čađavog lica hoće da mi pokaže štos.
-test_replace hr "Љубазни фењерџија чађавог лица хоће да ми покаже штос." "Translate 'ljubazni'
+cat > expected.txt <<EOF
+Translate 'ljubazni'
 Translate 'fenjerdžija'
 Translate 'čađavog'
 Translate 'lica'
@@ -35,24 +42,30 @@ Translate 'hoće'
 Translate 'da'
 Translate 'mi'
 Translate 'pokaže'
-Translate 'štos'"
+Translate 'štos'
+EOF
+test_replace hr "Љубазни фењерџија чађавог лица хоће да ми покаже штос."
 
 ##### ja: Japanese
 
 # いろはにほへと.  ちりぬるを.  わかよたれそ.  つねならむ.  うゐのおくやま.  けふこえて.  あさきゆめみし.  ゑひもせすん.
-test_replace ja "イロハニホヘト. チリヌルヲ. ワカヨタレソ. ツネナラム. ウヰノオクヤマ. ケフコエテ. アサキユメミシ. ヱヒモセスン." "Translate 'いろはにほへと'
+cat > expected.txt <<EOF
+Translate 'いろはにほへと'
 Translate 'ちりぬるを'
 Translate 'わかよたれそ'
 Translate 'つねならむ'
 Translate 'うゐのおくやま'
 Translate 'けふこえて'
 Translate 'あさきゆめみし'
-Translate 'ゑひもせすん'"
+Translate 'ゑひもせすん'
+EOF
+test_replace ja "イロハニホヘト. チリヌルヲ. ワカヨタレソ. ツネナラム. ウヰノオクヤマ. ケフコエテ. アサキユメミシ. ヱヒモセスン."
 
 ##### mk: Macedonian
 
 # Ѕидарски пејзаж: шугав билмез со чудење џвака ќофте и кељ на туѓ цех.
-test_replace mk "Dzidarski pejzaž: šugav bilmez so čudenje džvaka ćofte i kelj na tuđ ceh." "Translate 'ѕидарски'
+cat > expected.txt <<EOF
+Translate 'ѕидарски'
 Translate 'пејзаж'
 Translate 'шугав'
 Translate 'билмез'
@@ -64,12 +77,15 @@ Found: 'и' [i_:]  \$u \$pause
 Translate 'кељ'
 Translate 'на'
 Translate 'туѓ'
-Translate 'цех'"
+Translate 'цех'
+EOF
+test_replace mk "Dzidarski pejzaž: šugav bilmez so čudenje džvaka ćofte i kelj na tuđ ceh."
 
 ##### sr: Serbian
 
 # Ljubazni fenjerdžija čađavog lica hoće da mi pokaže štos.
-test_replace sr "Љубазни фењерџија чађавог лица хоће да ми покаже штос." "Translate 'ljubazni'
+cat > expected.txt <<EOF
+Translate 'ljubazni'
 Translate 'fenjerdžija'
 Translate 'čađavog'
 Translate 'lica'
@@ -77,4 +93,7 @@ Translate 'hoće'
 Translate 'da'
 Translate 'mi'
 Translate 'pokaže'
-Translate 'štos'"
+Translate 'štos'
+EOF
+test_replace sr "Љубазни фењерџија чађавог лица хоће да ми покаже штос."
+
