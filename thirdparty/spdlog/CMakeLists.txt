@@ -25,14 +25,6 @@ endif()
 # ---------------------------------------------------------------------------------------
 # Compiler config
 # ---------------------------------------------------------------------------------------
-if(SPDLOG_USE_STD_FORMAT)
-    set(CMAKE_CXX_STANDARD 20)
-    set(CMAKE_CXX_STANDARD_REQUIRED ON)
-elseif(NOT CMAKE_CXX_STANDARD)
-    set(CMAKE_CXX_STANDARD 11)
-    set(CMAKE_CXX_STANDARD_REQUIRED ON)
-endif()
-
 # make sure __cplusplus is defined when using msvc and enable parallel build
 if(MSVC)
     string(APPEND CMAKE_CXX_FLAGS " /Zc:__cplusplus /MP")
