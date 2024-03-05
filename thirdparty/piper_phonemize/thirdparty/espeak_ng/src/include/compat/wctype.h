@@ -32,19 +32,4 @@
 
 #include <ucd/ucd.h>
 
-#define iswalnum  ucd_isalnum
-#define iswalpha  ucd_isalpha
-#define iswblank  ucd_isblank
-#define iswcntrl  ucd_iscntrl
-#define iswdigit  ucd_isdigit
-#define iswgraph  ucd_isgraph
-#define iswlower  ucd_islower
-#define iswprint  ucd_isprint
-#define iswpunct  ucd_ispunct
-#define iswspace  ucd_isspace
-#define iswupper  ucd_isupper
-#define iswxdigit ucd_isxdigit
-#define tolower ucd_tolower
-#define toupper udc_toupper
-
 #endif
